@@ -26,3 +26,11 @@ jobs:
 
       - name: Run summary script
         run: python update_summary.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add api/latest.js
+          git commit -m "Update latest summary" || echo "No changes to commit"
+          git push
