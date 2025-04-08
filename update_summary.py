@@ -49,7 +49,7 @@ def summarize(text):
 
 def save_summary_to_file(summary):
     """요약된 텍스트를 latest.js 파일로 저장합니다"""
-    with open("api/latest.js", "w", encoding="utf-8") as f:
+    with open("ai/latest.js", "w", encoding="utf-8") as f:
         f.write(f"export const summary = `{summary}`;\n")
 
 # 실행
