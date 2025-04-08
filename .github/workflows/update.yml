@@ -1,8 +1,8 @@
-name: Update Summary
+name: Update Buffett Summary with Hugging Face
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 매일 자정 UTC 기준 (한국 시간 오전 9시)
+    - cron: "0 0 * * *"  # 매일 자정 실행
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -19,15 +19,10 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: pip install transformers feedparser
-
-      - name: Run summary update
-        run: python update_summary.py
-
-      - name: Commit and push
         run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git add latest.js
-          git commit -m "Update summary" || echo "No changes to commit"
-          git push
+          pip install torch
+          pip install transformers
+          pip install feedparser
+
+      - name: Run summary script
+        run: python update_summary.py
