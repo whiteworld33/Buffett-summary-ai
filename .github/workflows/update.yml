@@ -1,12 +1,12 @@
-name: Update Buffett Summary with Hugging Face
+name: Daily Buffett Summary Update
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 매일 자정 실행
+    - cron: '0 0 * * *'  # 매일 UTC 기준 00시 (한국 기준 오전 9시)
   workflow_dispatch:
 
 jobs:
-  build:
+  update-summary:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,16 +20,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install torch
-          pip install transformers
-          pip install feedparser
+          python -m pip install --upgrade pip
+          pip install torch transformers feedparser
 
       - name: Run summary script
         run: python update_summary.py
 
       - name: Commit and push changes
         env:
-          TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          TOKEN: ${{ secrets.ACTIONS_TOKEN }}  # secrets에 저장한 PAT
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
