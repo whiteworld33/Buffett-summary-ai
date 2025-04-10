@@ -44,7 +44,7 @@ def summarize(text):
     summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=device)
     
     # 텍스트를 더 작은 조각으로 나누기
-    def split_text_for_model(text, max_length=128):  # max_length 값을 128로 줄임
+    def split_text_for_model(text, max_length=64):  # max_length 값을 64로 줄임
         tokens = text.split()
         chunks = []
         for i in range(0, len(tokens), max_length):
@@ -57,7 +57,7 @@ def summarize(text):
     translated_news_chunks = split_text_for_model(text)
     
     # 요약의 길이를 조절하여 전체 토큰 수를 줄임
-    summaries = [summarizer(chunk, max_length=15, min_length=5, do_sample=False) for chunk in translated_news_chunks]
+    summaries = [summarizer(chunk, max_length=10, min_length=5, do_sample=False) for chunk in translated_news_chunks]
     summary = ' '.join([result[0]['summary_text'] for result in summaries])
     
     return summary
@@ -65,11 +65,4 @@ def summarize(text):
 def save_summary_to_file(summary):
     os.makedirs("api", exist_ok=True)
     with open("api/latest.js", "w", encoding="utf-8") as f:
-        f.write(f"export const summary = `{summary}`;\n")
-
-# 실행
-news = fetch_news()
-translated_news = translate_text(news)
-preprocessed_news = preprocess_text(translated_news)
-summary = summarize(preprocessed_news)
-save_summary_to_file(summary)
+        f.write(f"export const summary = `{summary}`;\n
