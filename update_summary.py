@@ -2,6 +2,7 @@ import os
 import feedparser
 from transformers import pipeline
 import torch
+from googletrans import Translator
 
 def fetch_news():
     rss_url = "https://news.google.com/rss/search?q=워런+버핏"
@@ -11,6 +12,11 @@ def fetch_news():
     for entry in entries:
         text += entry.title + ". " + entry.summary + "\n\n"
     return text
+
+def translate_text(text, dest_language="ko"):
+    translator = Translator()
+    translated = translator.translate(text, dest=dest_language)
+    return translated.text
 
 def split_text(text, max_tokens=1000):
     sentences = text.split(". ")
@@ -39,11 +45,12 @@ def summarize(text):
     return "\n\n".join(results)
 
 def save_summary_to_file(summary):
-    os.makedirs("api", exist_ok=True)  # <<< 이 줄 추가: 'api' 폴더 없으면 생성
+    os.makedirs("api", exist_ok=True)
     with open("api/latest.js", "w", encoding="utf-8") as f:
         f.write(f"export const summary = `{summary}`;\n")
 
 # 실행
 news = fetch_news()
-summary = summarize(news)
+translated_news = translate_text(news)
+summary = summarize(translated_news)
 save_summary_to_file(summary)
