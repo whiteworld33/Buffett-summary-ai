@@ -18,6 +18,11 @@ def translate_text(text, dest_language="ko"):
     translated = translator.translate(text, dest=dest_language)
     return translated.text
 
+def preprocess_text(text):
+    # 불필요한 부분 제거
+    text = text.replace("\n", " ").replace("\r", " ")
+    return text
+
 def split_text(text, max_tokens=100):  # max_tokens 값을 더 줄임
     sentences = text.split(". ")
     chunks = []
@@ -39,7 +44,7 @@ def summarize(text):
     summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=device)
     
     # 텍스트를 더 작은 조각으로 나누기
-    def split_text_for_model(text, max_length=256):  # max_length 값을 256으로 줄임
+    def split_text_for_model(text, max_length=128):  # max_length 값을 128로 줄임
         tokens = text.split()
         chunks = []
         for i in range(0, len(tokens), max_length):
@@ -52,7 +57,7 @@ def summarize(text):
     translated_news_chunks = split_text_for_model(text)
     
     # 요약의 길이를 조절하여 전체 토큰 수를 줄임
-    summaries = [summarizer(chunk, max_length=20, min_length=10, do_sample=False) for chunk in translated_news_chunks]
+    summaries = [summarizer(chunk, max_length=15, min_length=5, do_sample=False) for chunk in translated_news_chunks]
     summary = ' '.join([result[0]['summary_text'] for result in summaries])
     
     return summary
@@ -65,5 +70,6 @@ def save_summary_to_file(summary):
 # 실행
 news = fetch_news()
 translated_news = translate_text(news)
-summary = summarize(translated_news)
+preprocessed_news = preprocess_text(translated_news)
+summary = summarize(preprocessed_news)
 save_summary_to_file(summary)
