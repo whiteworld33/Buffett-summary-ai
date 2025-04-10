@@ -16,7 +16,7 @@ def send_email(summary):
     part = MIMEText(text, "plain")
     message.attach(part)
 
-    with smtplib.SMTP_SSL("smtp.example.com", 465) as server:
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message.as_string())
 
