@@ -40,8 +40,11 @@ def summarize(text):
     chunks = split_text(text)
     results = []
     for chunk in chunks:
-        result = summarizer(chunk, max_length=100, min_length=30, do_sample=False)  # max_length 값을 줄임
-        results.append(result[0]['summary_text'])
+        if len(chunk.split()) > 10:  # 너무 짧은 텍스트는 요약하지 않음
+            result = summarizer(chunk, max_length=100, min_length=30, do_sample=False)  # max_length 값을 줄임
+            results.append(result[0]['summary_text'])
+        else:
+            results.append(chunk)
     return "\n\n".join(results)
 
 def save_summary_to_file(summary):
