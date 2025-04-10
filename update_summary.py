@@ -5,7 +5,7 @@ import torch
 from googletrans import Translator
 
 def fetch_news():
-    rss_url = "https://news.google.com/rss/search?q=워런+버핏"
+    rss_url = "https://news.google.com/rss/search?q=warren+buffett+buying"
     feed = feedparser.parse(rss_url)
     entries = feed.entries[:5]
     text = ""
