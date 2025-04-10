@@ -39,7 +39,7 @@ def summarize(text):
     summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=device)
     
     # 추가된 코드: 텍스트를 더 작은 조각으로 나누기
-    def split_text_for_model(text, max_length=1024):
+    def split_text_for_model(text, max_length=512):
         tokens = text.split()
         chunks = [tokens[i:i + max_length] for i in range(0, len(tokens), max_length)]
         return [' '.join(chunk) for chunk in chunks]
@@ -48,8 +48,8 @@ def summarize(text):
     
     # 각 chunk의 길이를 확인하고 1024 이하로 줄이기
     for i in range(len(translated_news_chunks)):
-        while len(translated_news_chunks[i].split()) > 1024:
-            translated_news_chunks[i] = ' '.join(translated_news_chunks[i].split()[:1024])
+        while len(translated_news_chunks[i].split()) > 512:
+            translated_news_chunks[i] = ' '.join(translated_news_chunks[i].split()[:512])
     
     summaries = [summarizer(chunk, max_length=30, min_length=20, do_sample=False) for chunk in translated_news_chunks]
     summary = ' '.join([result[0]['summary_text'] for result in summaries])
