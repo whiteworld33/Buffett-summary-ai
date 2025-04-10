@@ -59,4 +59,4 @@ def save_summary_to_file(summary):
 news = fetch_news()
 translated_news = translate_text(news)
 summary = summarize(translated_news)
-save_summary_to_file(summary
+save_summary_to_file(summary)
