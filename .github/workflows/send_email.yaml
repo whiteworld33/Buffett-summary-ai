@@ -24,4 +24,7 @@ jobs:
         pip install feedparser transformers torch googletrans
 
     - name: Run send_email.py
+      env:
+        EMAIL: ${{ secrets.EMAIL }}
+        PASSWORD: ${{ secrets.PASSWORD }}
       run: python send_email.py
