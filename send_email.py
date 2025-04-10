@@ -11,7 +11,7 @@ def translate_text(text, dest_language="ko"):
 
 def send_email(summary):
     sender_email = os.getenv("EMAIL")
-    receiver_email = "receiver_email@example.com"
+    receiver_email = "whiteworld33@gmail.com"
     password = os.getenv("PASSWORD")
 
     # 번역기 설정
