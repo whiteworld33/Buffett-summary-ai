@@ -1,11 +1,12 @@
+import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 def send_email(summary):
-    sender_email = "buffettsummary.bot"
+    sender_email = os.getenv("EMAIL")
     receiver_email = "whiteworld33@gmail.com"
-    password = "buffettsumm@ryb0t"
+    password = os.getenv("PASSWORD")
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "Latest Summary"
