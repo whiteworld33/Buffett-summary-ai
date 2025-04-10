@@ -37,15 +37,18 @@ def summarize(text):
     print("Device set to use", "cuda" if device == 0 else "cpu")
 
     summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=device)
-    chunks = split_text(text)
-    results = []
-    for chunk in chunks:
-        if len(chunk.split()) > 10:  # 너무 짧은 텍스트는 요약하지 않음
-            result = summarizer(chunk, max_length=30, min_length=20, do_sample=False)  # max_length 값을 더 줄임
-            results.append(result[0]['summary_text'])
-        else:
-            results.append(chunk)
-    return "\n\n".join(results)
+    
+    # 추가된 코드: 텍스트를 더 작은 조각으로 나누기
+    def split_text_for_model(text, max_length=1024):
+        tokens = text.split()
+        chunks = [tokens[i:i + max_length] for i in range(0, len(tokens), max_length)]
+        return [' '.join(chunk) for chunk in chunks]
+
+    translated_news_chunks = split_text_for_model(text)
+    summaries = [summarizer(chunk, max_length=30, min_length=20, do_sample=False) for chunk in translated_news_chunks]
+    summary = ' '.join([result[0]['summary_text'] for result in summaries])
+    
+    return summary
 
 def save_summary_to_file(summary):
     os.makedirs("api", exist_ok=True)
@@ -56,4 +59,4 @@ def save_summary_to_file(summary):
 news = fetch_news()
 translated_news = translate_text(news)
 summary = summarize(translated_news)
-save_summary_to_file(summary)
+save_summary_to_file(summary
