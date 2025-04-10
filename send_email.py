@@ -2,18 +2,23 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from googletrans import Translator
 
 def send_email(summary):
     sender_email = os.getenv("EMAIL")
     receiver_email = "whiteworld33@gmail.com"
     password = os.getenv("PASSWORD")
 
+    # 번역기 설정
+    translator = Translator()
+    translated_summary = translator.translate(summary, dest='ko').text
+
     message = MIMEMultipart("alternative")
     message["Subject"] = "Latest Summary"
     message["From"] = sender_email
     message["To"] = receiver_email
 
-    text = f"Here is the latest summary:\n\n{summary}"
+    text = f"Here is the latest summary:\n\n{translated_summary}"
     part = MIMEText(text, "plain")
     message.attach(part)
 
