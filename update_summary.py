@@ -18,7 +18,7 @@ def translate_text(text, dest_language="ko"):
     translated = translator.translate(text, dest=dest_language)
     return translated.text
 
-def split_text(text, max_tokens=500):  # max_tokens 값을 줄임
+def split_text(text, max_tokens=300):  # max_tokens 값을 더 줄임
     sentences = text.split(". ")
     chunks = []
     current_chunk = ""
@@ -41,7 +41,7 @@ def summarize(text):
     results = []
     for chunk in chunks:
         if len(chunk.split()) > 10:  # 너무 짧은 텍스트는 요약하지 않음
-            result = summarizer(chunk, max_length=100, min_length=30, do_sample=False)  # max_length 값을 줄임
+            result = summarizer(chunk, max_length=80, min_length=30, do_sample=False)  # max_length 값을 더 줄임
             results.append(result[0]['summary_text'])
         else:
             results.append(chunk)
