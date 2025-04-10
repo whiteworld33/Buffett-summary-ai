@@ -27,9 +27,9 @@ jobs:
       run: python update_summary.py
 
     - name: Commit changes
-      run: |
-        git config --global user.email "github-actions@github.com"
-        git config --global user.name "GitHub Actions"
-        git add api/latest.js
-        git commit -m "Update latest summary" || echo "No changes to commit"
-        git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/whiteworld33/Buffett-summary-ai.git HEAD:main
+      run: |
+        git config --global user.email "github-actions@github.com"
+        git config --global user.name "GitHub Actions"
+        git add api/latest.js
+        git commit -m "Update latest summary" || echo "No changes to commit"
+        git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/whiteworld33/Buffett-summary-ai.git HEAD:main
