@@ -3,20 +3,19 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from googletrans import Translator
-import asyncio
 
-async def translate_text(text, dest_language="ko"):
+def translate_text(text, dest_language="ko"):
     translator = Translator()
-    translated = await translator.translate(text, dest=dest_language)
+    translated = translator.translate(text, dest=dest_language)
     return translated.text
 
 def send_email(summary):
     sender_email = os.getenv("EMAIL")
-    receiver_email = "whiteworld33@gmail.com"
+    receiver_email = "receiver_email@example.com"
     password = os.getenv("PASSWORD")
 
     # 번역기 설정
-    translated_summary = asyncio.run(translate_text(summary))
+    translated_summary = translate_text(summary)
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "Latest Summary"
