@@ -45,6 +45,12 @@ def summarize(text):
         return [' '.join(chunk) for chunk in chunks]
 
     translated_news_chunks = split_text_for_model(text)
+    
+    # 각 chunk의 길이를 확인하고 1024 이하로 줄이기
+    for i in range(len(translated_news_chunks)):
+        while len(translated_news_chunks[i].split()) > 1024:
+            translated_news_chunks[i] = ' '.join(translated_news_chunks[i].split()[:1024])
+    
     summaries = [summarizer(chunk, max_length=30, min_length=20, do_sample=False) for chunk in translated_news_chunks]
     summary = ' '.join([result[0]['summary_text'] for result in summaries])
     
@@ -59,4 +65,4 @@ def save_summary_to_file(summary):
 news = fetch_news()
 translated_news = translate_text(news)
 summary = summarize(translated_news)
-save_summary_to_file(summary)
+save_summary_to_file(summary)  # 괄호를 닫음
