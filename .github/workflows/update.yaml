@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install transformers feedparser torch
+        pip install transformers feedparser torch googletrans==4.0.0-rc1
 
     - name: Run update script
       run: python update_summary.py
