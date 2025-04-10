@@ -65,4 +65,5 @@ def summarize(text):
 def save_summary_to_file(summary):
     os.makedirs("api", exist_ok=True)
     with open("api/latest.js", "w", encoding="utf-8") as f:
-        f.write(f"export const summary = `{summary}`;\n)
+        f.write(f"export const summary = `{summary}`;\n")  # Corrected line
+
