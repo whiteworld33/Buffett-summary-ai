@@ -51,7 +51,8 @@ def summarize(text):
 
     translated_news_chunks = split_text_for_model(text)
     
-    summaries = [summarizer(chunk, max_length=30, min_length=20, do_sample=False) for chunk in translated_news_chunks]
+    # 요약의 길이를 조절하여 전체 토큰 수를 줄임
+    summaries = [summarizer(chunk, max_length=20, min_length=10, do_sample=False) for chunk in translated_news_chunks]
     summary = ' '.join([result[0]['summary_text'] for result in summaries])
     
     return summary
