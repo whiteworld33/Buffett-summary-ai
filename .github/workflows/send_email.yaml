@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install smtplib feedparser transformers torch googletrans
+        pip install feedparser transformers torch googletrans
 
     - name: Run send_email.py
       run: python send_email.py
