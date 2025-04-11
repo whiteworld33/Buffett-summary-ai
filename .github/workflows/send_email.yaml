@@ -3,7 +3,8 @@ name: Send Email
 on:
   schedule:
     - cron: '0 1 * * *'  # 매일 오전 10시에 실행 (UTC+9 기준)
-
+  workflow_dispatch:
+  
 jobs:
   send_email_job:
     runs-on: ubuntu-latest
