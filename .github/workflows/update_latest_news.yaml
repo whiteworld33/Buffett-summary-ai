@@ -37,3 +37,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }}
+
+      - name: Check if api folder and latest.js exist
+        run: |
+          ls -l api
+          ls -l api/latest.js || echo "latest.js not found"
