@@ -24,11 +24,14 @@ jobs:
       - name: Run Python script to generate latest.js
         run: python update_summary.py  # 실제 파이썬 스크립트 파일 이름으로 변경
 
+      - name: Remove cached latest.js (if exists)
+        run: git rm --cached api/latest.js --ignore-unmatch
+  
       - name: Add and commit latest.js
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions Bot"
-          git add api/latest.js
+          git add ./api/latest.js
           git commit -m "Update latest news summary [skip ci]"
         continue-on-error: true # 커밋 실패 시에도 워크플로우가 계속 진행되도록 설정 (선택 사항)
 
