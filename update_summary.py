@@ -63,7 +63,8 @@ def summarize(text):
     return summary
 
 def save_summary_to_file(summary):
+    print("save_summary_to_file 함수 호출됨") # 로그 추가
     os.makedirs("api", exist_ok=True)
     with open("api/latest.js", "w", encoding="utf-8") as f:
-        f.write(f"export const summary = `{summary}`;\n")  # Corrected line
-
+        f.write(f"export const summary = `{summary}`;\n")
+    print("api/latest.js 파일 저장 완료") # 로그 추가
